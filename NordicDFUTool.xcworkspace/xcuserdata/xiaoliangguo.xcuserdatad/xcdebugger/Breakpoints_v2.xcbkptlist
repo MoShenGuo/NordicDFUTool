@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "49B853A0-90B3-4592-B3ED-947704C46213"
+   type = "0"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "96CA2A31-5340-4F20-AB30-316040390F00"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pods/iOSMcuManagerLibrary/iOSMcuManagerLibrary/Source/McuMgrPackage.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
+            landmarkName = "extractImageFromZipFile(from:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "96CA2A31-5340-4F20-AB30-316040390F00 - c599680d75f6961c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static iOSMcuManagerLibrary.McuMgrPackage.extractImageFromZipFile(from: Foundation.URL) throws -&gt; iOSMcuManagerLibrary.McuMgrPackage"
+                  moduleName = "iOSMcuManagerLibrary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/xiaoliangguo/Downloads/new/NordicDFUTool/Pods/iOSMcuManagerLibrary/iOSMcuManagerLibrary/Source/McuMgrPackage.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "159"
+                  endingLineNumber = "159">
+               </Location>
+               <Location
+                  uuid = "96CA2A31-5340-4F20-AB30-316040390F00 - c599680d75f6961c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static iOSMcuManagerLibrary.McuMgrPackage.extractImageFromZipFile(from: Foundation.URL) throws -&gt; iOSMcuManagerLibrary.McuMgrPackage"
+                  moduleName = "iOSMcuManagerLibrary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/xiaoliangguo/Downloads/new/NordicDFUTool/Pods/iOSMcuManagerLibrary/iOSMcuManagerLibrary/Source/McuMgrPackage.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "159"
+                  endingLineNumber = "159">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "232F6E10-701D-48A5-B988-638A3A4B8914"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Pods/iOSMcuManagerLibrary/iOSMcuManagerLibrary/Source/McuMgrPackage.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "160"
+            endingLineNumber = "160"
+            landmarkName = "extractImageFromZipFile(from:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "232F6E10-701D-48A5-B988-638A3A4B8914 - c599680d75f69643"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static iOSMcuManagerLibrary.McuMgrPackage.extractImageFromZipFile(from: Foundation.URL) throws -&gt; iOSMcuManagerLibrary.McuMgrPackage"
+                  moduleName = "iOSMcuManagerLibrary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/xiaoliangguo/Downloads/new/NordicDFUTool/Pods/iOSMcuManagerLibrary/iOSMcuManagerLibrary/Source/McuMgrPackage.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "160"
+                  endingLineNumber = "160">
+               </Location>
+               <Location
+                  uuid = "232F6E10-701D-48A5-B988-638A3A4B8914 - 4a536ca150ecee02"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Foundation.URL) -&gt; Swift.Bool in static iOSMcuManagerLibrary.McuMgrPackage.extractImageFromZipFile(from: Foundation.URL) throws -&gt; iOSMcuManagerLibrary.McuMgrPackage"
+                  moduleName = "iOSMcuManagerLibrary"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/xiaoliangguo/Downloads/new/NordicDFUTool/Pods/iOSMcuManagerLibrary/iOSMcuManagerLibrary/Source/McuMgrPackage.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "160"
+                  endingLineNumber = "160">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

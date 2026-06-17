@@ -1,0 +1,426 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0949749915E382EA4DE1436F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF1BF82AAA349D9415906E6E /* AppDelegate.swift */; };
+		2EE879415973B356705312FA /* Pods_NordicDFUTool.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12466269D2809BB752019759 /* Pods_NordicDFUTool.framework */; };
+		4070474F2D14C91A48F5E81B /* BLEManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B55FC8B338581E060A0D6A /* BLEManager.swift */; };
+		49A9BD253846F27CD362B5B3 /* ManualUpgradeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A4DC88D04076F6C0CF22E5 /* ManualUpgradeViewController.swift */; };
+		692F23CF9B9FBD8084C314C9 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C179B1806AE726D233F10BC0 /* MainViewController.swift */; };
+		B92274769BE1EA229D2C11C3 /* BatchUpgradeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E2C39895C548FE63D60DA2 /* BatchUpgradeViewController.swift */; };
+		C36F27267AE0851771A34736 /* FirmwareService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C173A1A034736E46F1F7CD /* FirmwareService.swift */; };
+		D60B40806293B6DC88FCE79A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91F71AA936BE144DA43D24BB /* Foundation.framework */; };
+		D9DFF39ECD62C09951EBFE50 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D67E97C70BA544829C395A38 /* ScanViewController.swift */; };
+		DC4DC2C85F5CA85AF5CAA73D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE5B7CF77A1DC6EA9E8A60ED /* SceneDelegate.swift */; };
+		E5475D39E1DFE38DBB0FAE5C /* AutoUpgradeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0AE5F39007936C427F00A4 /* AutoUpgradeViewController.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		12466269D2809BB752019759 /* Pods_NordicDFUTool.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NordicDFUTool.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4D834941181C345C4F6CD78C /* Pods-NordicDFUTool.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NordicDFUTool.debug.xcconfig"; path = "Target Support Files/Pods-NordicDFUTool/Pods-NordicDFUTool.debug.xcconfig"; sourceTree = "<group>"; };
+		50A4DC88D04076F6C0CF22E5 /* ManualUpgradeViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ManualUpgradeViewController.swift; sourceTree = "<group>"; };
+		7BDA0B977A3677BCAD73F630 /* NordicDFUTool.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NordicDFUTool.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		84B55FC8B338581E060A0D6A /* BLEManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BLEManager.swift; sourceTree = "<group>"; };
+		84E2C39895C548FE63D60DA2 /* BatchUpgradeViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = BatchUpgradeViewController.swift; sourceTree = "<group>"; };
+		91F71AA936BE144DA43D24BB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		983BD48FFF3E5D62E02FABDD /* Pods-NordicDFUTool.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NordicDFUTool.release.xcconfig"; path = "Target Support Files/Pods-NordicDFUTool/Pods-NordicDFUTool.release.xcconfig"; sourceTree = "<group>"; };
+		987217EEB918B9D7C40817D4 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AE5B7CF77A1DC6EA9E8A60ED /* SceneDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		C179B1806AE726D233F10BC0 /* MainViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		D67E97C70BA544829C395A38 /* ScanViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ScanViewController.swift; sourceTree = "<group>"; };
+		DF1BF82AAA349D9415906E6E /* AppDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		F9C173A1A034736E46F1F7CD /* FirmwareService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FirmwareService.swift; sourceTree = "<group>"; };
+		FC0AE5F39007936C427F00A4 /* AutoUpgradeViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AutoUpgradeViewController.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		317AE344BB8E42812BCFE885 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D60B40806293B6DC88FCE79A /* Foundation.framework in Frameworks */,
+				2EE879415973B356705312FA /* Pods_NordicDFUTool.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		52D898583853A7AC9173224C /* NordicDFUTool */ = {
+			isa = PBXGroup;
+			children = (
+				DF1BF82AAA349D9415906E6E /* AppDelegate.swift */,
+				FC0AE5F39007936C427F00A4 /* AutoUpgradeViewController.swift */,
+				84B55FC8B338581E060A0D6A /* BLEManager.swift */,
+				84E2C39895C548FE63D60DA2 /* BatchUpgradeViewController.swift */,
+				F9C173A1A034736E46F1F7CD /* FirmwareService.swift */,
+				C179B1806AE726D233F10BC0 /* MainViewController.swift */,
+				50A4DC88D04076F6C0CF22E5 /* ManualUpgradeViewController.swift */,
+				D67E97C70BA544829C395A38 /* ScanViewController.swift */,
+				AE5B7CF77A1DC6EA9E8A60ED /* SceneDelegate.swift */,
+				987217EEB918B9D7C40817D4 /* Info.plist */,
+			);
+			path = NordicDFUTool;
+			sourceTree = "<group>";
+		};
+		85D36230C73AD3EDD3163820 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				983BD48FFF3E5D62E02FABDD /* Pods-NordicDFUTool.release.xcconfig */,
+				4D834941181C345C4F6CD78C /* Pods-NordicDFUTool.debug.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		899AFDC23F4AB67C5143C044 = {
+			isa = PBXGroup;
+			children = (
+				D1244B780CDEA87E3EEAF6DA /* Products */,
+				F061EBD5D78259F0A85BC896 /* Frameworks */,
+				52D898583853A7AC9173224C /* NordicDFUTool */,
+				85D36230C73AD3EDD3163820 /* Pods */,
+			);
+			sourceTree = "<group>";
+		};
+		C2AD8DCBFE3453DF89798937 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				91F71AA936BE144DA43D24BB /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		D1244B780CDEA87E3EEAF6DA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7BDA0B977A3677BCAD73F630 /* NordicDFUTool.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F061EBD5D78259F0A85BC896 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C2AD8DCBFE3453DF89798937 /* iOS */,
+				12466269D2809BB752019759 /* Pods_NordicDFUTool.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E94992FB68D0F687380ADFE5 /* NordicDFUTool */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 901B0A1B61167C900A7D07AA /* Build configuration list for PBXNativeTarget "NordicDFUTool" */;
+			buildPhases = (
+				2C7C7AABCFCD5CD7DBD047D3 /* [CP] Check Pods Manifest.lock */,
+				58CB21B31A53103C22C6B48A /* Sources */,
+				317AE344BB8E42812BCFE885 /* Frameworks */,
+				FD17BAD041C2FE45BA467C38 /* Resources */,
+				3BCED795976035E83933592E /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NordicDFUTool;
+			productName = NordicDFUTool;
+			productReference = 7BDA0B977A3677BCAD73F630 /* NordicDFUTool.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		195E08E244841FC255517A06 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					E94992FB68D0F687380ADFE5 = {
+						DevelopmentTeam = 6CR3ERC627;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = CB79B7FD1B71CA8D29795A2F /* Build configuration list for PBXProject "NordicDFUTool" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 899AFDC23F4AB67C5143C044;
+			productRefGroup = D1244B780CDEA87E3EEAF6DA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E94992FB68D0F687380ADFE5 /* NordicDFUTool */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FD17BAD041C2FE45BA467C38 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2C7C7AABCFCD5CD7DBD047D3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-NordicDFUTool-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3BCED795976035E83933592E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NordicDFUTool/Pods-NordicDFUTool-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SwiftCBOR/SwiftCBOR.framework",
+				"${BUILT_PRODUCTS_DIR}/ZIPFoundation/ZIPFoundation.framework",
+				"${BUILT_PRODUCTS_DIR}/iOSMcuManagerLibrary/iOSMcuManagerLibrary.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftCBOR.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ZIPFoundation.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/iOSMcuManagerLibrary.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NordicDFUTool/Pods-NordicDFUTool-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		58CB21B31A53103C22C6B48A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0949749915E382EA4DE1436F /* AppDelegate.swift in Sources */,
+				E5475D39E1DFE38DBB0FAE5C /* AutoUpgradeViewController.swift in Sources */,
+				4070474F2D14C91A48F5E81B /* BLEManager.swift in Sources */,
+				B92274769BE1EA229D2C11C3 /* BatchUpgradeViewController.swift in Sources */,
+				C36F27267AE0851771A34736 /* FirmwareService.swift in Sources */,
+				692F23CF9B9FBD8084C314C9 /* MainViewController.swift in Sources */,
+				49A9BD253846F27CD362B5B3 /* ManualUpgradeViewController.swift in Sources */,
+				D9DFF39ECD62C09951EBFE50 /* ScanViewController.swift in Sources */,
+				DC4DC2C85F5CA85AF5CAA73D /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		3F434A00D925FB8A38F9F17F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		7AC609F83376B1F41BC1FB28 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		7DEF5D187E73A2B5FEBEF915 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4D834941181C345C4F6CD78C /* Pods-NordicDFUTool.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6CR3ERC627;
+				INFOPLIST_FILE = NordicDFUTool/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.nordicdfu.tool;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8647B4B25B4DAA7F7C3D13DD /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 983BD48FFF3E5D62E02FABDD /* Pods-NordicDFUTool.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6CR3ERC627;
+				INFOPLIST_FILE = NordicDFUTool/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.nordicdfu.tool;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		901B0A1B61167C900A7D07AA /* Build configuration list for PBXNativeTarget "NordicDFUTool" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8647B4B25B4DAA7F7C3D13DD /* Release */,
+				7DEF5D187E73A2B5FEBEF915 /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CB79B7FD1B71CA8D29795A2F /* Build configuration list for PBXProject "NordicDFUTool" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7AC609F83376B1F41BC1FB28 /* Debug */,
+				3F434A00D925FB8A38F9F17F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 195E08E244841FC255517A06 /* Project object */;
+}

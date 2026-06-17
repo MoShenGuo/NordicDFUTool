@@ -1,0 +1,24 @@
+PODS:
+  - iOSMcuManagerLibrary (1.14.3):
+    - SwiftCBOR (= 0.5.0)
+    - ZIPFoundation (= 0.9.19)
+  - SwiftCBOR (0.5.0)
+  - ZIPFoundation (0.9.19)
+
+DEPENDENCIES:
+  - iOSMcuManagerLibrary (~> 1.14)
+
+SPEC REPOS:
+  trunk:
+    - iOSMcuManagerLibrary
+    - SwiftCBOR
+    - ZIPFoundation
+
+SPEC CHECKSUMS:
+  iOSMcuManagerLibrary: fc684296d31eda27acc999192c995738c13c4424
+  SwiftCBOR: aa87349b4ccddd19f861aa544f7c27d43dee5772
+  ZIPFoundation: b8c29ea7ae353b309bc810586181fd073cb3312c
+
+PODFILE CHECKSUM: b2899eef71434ca98270d5358ae9b6d544c06423
+
+COCOAPODS: 1.16.2
