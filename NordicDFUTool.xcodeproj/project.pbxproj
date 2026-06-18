@@ -12,6 +12,11 @@
 		4070474F2D14C91A48F5E81B /* BLEManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B55FC8B338581E060A0D6A /* BLEManager.swift */; };
 		49A9BD253846F27CD362B5B3 /* ManualUpgradeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A4DC88D04076F6C0CF22E5 /* ManualUpgradeViewController.swift */; };
 		692F23CF9B9FBD8084C314C9 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C179B1806AE726D233F10BC0 /* MainViewController.swift */; };
+		A1B2C3D4E5F6A7B8C9D0E1F2 /* LegacyDFUManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E2D3C4B5A6978869ABCDEF /* LegacyDFUManager.swift */; };
+		A2B3C4D5E6F7A8B9C0D1E2F3 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2E3D4C5B6A7988970BCDEF0 /* Localization.swift */; };
+		A3B4C5D6E7F8A9B0C1D2E3F4 /* FirmwareValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E4D5C6B7A8A98A81CDEF01 /* FirmwareValidator.swift */; };
+		A4B5C6D7E8F9A0B1C2D3E4F5 /* LegacyBatchUpgradeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4E5D6C7B8A9B09B92DEF012 /* LegacyBatchUpgradeViewController.swift */; };
+		A5B6C7D8E9F0A1B2C3D4E5F6 /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5E6D7C8B9A0C0AC03EF0123 /* PermissionManager.swift */; };
 		B92274769BE1EA229D2C11C3 /* BatchUpgradeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E2C39895C548FE63D60DA2 /* BatchUpgradeViewController.swift */; };
 		C36F27267AE0851771A34736 /* FirmwareService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C173A1A034736E46F1F7CD /* FirmwareService.swift */; };
 		D60B40806293B6DC88FCE79A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91F71AA936BE144DA43D24BB /* Foundation.framework */; };
@@ -36,6 +41,11 @@
 		DF1BF82AAA349D9415906E6E /* AppDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F9C173A1A034736E46F1F7CD /* FirmwareService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FirmwareService.swift; sourceTree = "<group>"; };
 		FC0AE5F39007936C427F00A4 /* AutoUpgradeViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AutoUpgradeViewController.swift; sourceTree = "<group>"; };
+		F1E2D3C4B5A6978869ABCDEF /* LegacyDFUManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LegacyDFUManager.swift; sourceTree = "<group>"; };
+		F2E3D4C5B6A7988970BCDEF0 /* Localization.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
+		F3E4D5C6B7A8A98A81CDEF01 /* FirmwareValidator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = FirmwareValidator.swift; sourceTree = "<group>"; };
+		F4E5D6C7B8A9B09B92DEF012 /* LegacyBatchUpgradeViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LegacyBatchUpgradeViewController.swift; sourceTree = "<group>"; };
+		F5E6D7C8B9A0C0AC03EF0123 /* PermissionManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +69,11 @@
 				84B55FC8B338581E060A0D6A /* BLEManager.swift */,
 				84E2C39895C548FE63D60DA2 /* BatchUpgradeViewController.swift */,
 				F9C173A1A034736E46F1F7CD /* FirmwareService.swift */,
+				F1E2D3C4B5A6978869ABCDEF /* LegacyDFUManager.swift */,
+				F2E3D4C5B6A7988970BCDEF0 /* Localization.swift */,
+				F3E4D5C6B7A8A98A81CDEF01 /* FirmwareValidator.swift */,
+				F4E5D6C7B8A9B09B92DEF012 /* LegacyBatchUpgradeViewController.swift */,
+				F5E6D7C8B9A0C0AC03EF0123 /* PermissionManager.swift */,
 				C179B1806AE726D233F10BC0 /* MainViewController.swift */,
 				50A4DC88D04076F6C0CF22E5 /* ManualUpgradeViewController.swift */,
 				D67E97C70BA544829C395A38 /* ScanViewController.swift */,
@@ -207,12 +222,14 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-NordicDFUTool/Pods-NordicDFUTool-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/NordicDFU/NordicDFU.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftCBOR/SwiftCBOR.framework",
 				"${BUILT_PRODUCTS_DIR}/ZIPFoundation/ZIPFoundation.framework",
 				"${BUILT_PRODUCTS_DIR}/iOSMcuManagerLibrary/iOSMcuManagerLibrary.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NordicDFU.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftCBOR.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ZIPFoundation.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/iOSMcuManagerLibrary.framework",
@@ -234,6 +251,11 @@
 				4070474F2D14C91A48F5E81B /* BLEManager.swift in Sources */,
 				B92274769BE1EA229D2C11C3 /* BatchUpgradeViewController.swift in Sources */,
 				C36F27267AE0851771A34736 /* FirmwareService.swift in Sources */,
+				A1B2C3D4E5F6A7B8C9D0E1F2 /* LegacyDFUManager.swift in Sources */,
+				A2B3C4D5E6F7A8B9C0D1E2F3 /* Localization.swift in Sources */,
+				A3B4C5D6E7F8A9B0C1D2E3F4 /* FirmwareValidator.swift in Sources */,
+				A4B5C6D7E8F9A0B1C2D3E4F5 /* LegacyBatchUpgradeViewController.swift in Sources */,
+				A5B6C7D8E9F0A1B2C3D4E5F6 /* PermissionManager.swift in Sources */,
 				692F23CF9B9FBD8084C314C9 /* MainViewController.swift in Sources */,
 				49A9BD253846F27CD362B5B3 /* ManualUpgradeViewController.swift in Sources */,
 				D9DFF39ECD62C09951EBFE50 /* ScanViewController.swift in Sources */,

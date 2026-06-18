@@ -1,7 +1,7 @@
 import UIKit
 import iOSMcuManagerLibrary
 import CoreBluetooth
-
+import NordicDFU
 /// 手动升级页面
 /// OTA 升级流程（手动模式）：
 /// 1. 用户在首页先连接一个 BLE 设备
@@ -45,6 +45,18 @@ class ManualUpgradeViewController: UIViewController {
     /// 连接管理、MTU 协商、SMP 服务发现、数据分片发送/接收
     private var transport: McuMgrBleTransport?
     
+    /// 旧版 DFU 管理器（iOSDFULibrary，用于不支持 SMP 的设备）
+    private var legacyDFUManager: LegacyDFUManager?
+    
+    /// DFU 恢复模式：从扫描页面传入的 DFU 设备（用于中断后恢复升级）
+    var preselectedDFUPeripheral: CBPeripheral?
+    /// DFU 恢复模式：预选的固件文件
+    var preselectedFirmwareURL: URL?
+    
+    /// 当前设备使用的 OTA 框架类型
+    /// 在进入页面时通过检测 SMP 服务确定，后续选择固件和升级都依据此值
+    private var frameworkType: OTAFrameworkType = .unknown
+    
     // MARK: - 统计数据
     
     /// 当前升级开始时间（用于计算耗时）
@@ -58,11 +70,69 @@ class ManualUpgradeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "手动升级"
+        title = L10n.manualUpgrade
         view.backgroundColor = .systemBackground
         navigationItem.largeTitleDisplayMode = .never
         setupUI()
         updateStatistics()
+        
+        // DFU 恢复模式：预选 DFU 设备（已在 DFU 模式），直接走旧版
+        if let dfuPeripheral = preselectedDFUPeripheral, let firmwareURL = preselectedFirmwareURL {
+            frameworkType = .nordicDFU
+            selectedFileURL = firmwareURL
+            statusLabel.text = "🔄 DFU \(L10n.s("恢复模式", "Recovery Mode")): \(firmwareURL.lastPathComponent)"
+            statusLabel.textColor = .systemBlue
+            startUpgradeButton.isEnabled = false
+            startUpgradeButton.alpha = 0.5
+            appendLog("🔄 DFU \(L10n.s("恢复升级", "Recovery")): \(dfuPeripheral.name ?? "DFU Device")")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+                self?.startLegacyDFU(fileURL: firmwareURL, peripheral: dfuPeripheral, sendCommand: false)
+            }
+            return
+        }
+        
+        // 正常模式：检测已连接设备支持哪种 OTA 框架
+        detectFrameworkType()
+    }
+    
+    /// 进入页面时检测设备的 OTA 框架类型
+    private func detectFrameworkType() {
+        guard let peripheral = BLEManager.shared.currentPeripheral else {
+            frameworkType = .unknown
+            statusLabel.text = L10n.s("请选择固件文件", "Please select firmware file")
+            return
+        }
+        
+        statusLabel.text = L10n.s("正在检测设备类型...", "Detecting device type...")
+        statusLabel.textColor = .systemBlue
+        appendLog("🔍 \(L10n.s("检测设备 OTA 协议...", "Detecting OTA protocol..."))")
+        
+        LegacyDFUManager.checkSMPSupport(peripheral: peripheral) { [weak self] supportsSMP in
+            guard let self = self else { return }
+            if supportsSMP {
+                self.frameworkType = .mcuManager
+                self.statusLabel.text = L10n.s("设备类型: McuManager (SMP)\n请选择 McuManager 格式固件包 (.zip 含 manifest.json)", "Device: McuManager (SMP)\nSelect McuManager firmware (.zip with manifest.json)")
+                self.statusLabel.textColor = .systemGreen
+                self.appendLog("✅ \(L10n.s("设备支持 SMP 协议", "Device supports SMP protocol"))")
+            } else {
+                self.frameworkType = .nordicDFU
+                self.statusLabel.text = L10n.s("设备类型: Nordic DFU (旧版)\n请选择 Nordic DFU 格式固件包 (.zip 含 .dat + .bin)", "Device: Nordic DFU (Legacy)\nSelect Nordic DFU firmware (.zip with .dat + .bin)")
+                self.statusLabel.textColor = .systemOrange
+                self.appendLog("⚠️ \(L10n.s("设备使用旧版 Nordic DFU 协议", "Device uses legacy Nordic DFU protocol"))")
+            }
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        // 页面退出时取消正在进行的旧版 DFU，释放蓝牙资源
+        // 这样再次进入时可以重新扫描和连接 DFU 设备
+        legacyDFUManager?.abort()
+        legacyDFUManager = nil
+    }
+    
+    deinit {
+        legacyDFUManager?.abort()
     }
     
     private func setupUI() {
@@ -188,64 +258,161 @@ class ManualUpgradeViewController: UIViewController {
     }
     
     /// 点击"开始升级"按钮
-    /// 前置检查：确保已选择文件 + 已连接设备，然后弹出模式选择
+    /// 框架类型已确定，固件已校验通过，直接开始对应流程
     @objc private func startUpgradeTapped() {
-        // 检查是否已选择固件文件
         guard let fileURL = selectedFileURL else {
-            appendLog("❌ 未选择文件")
-            statusLabel.text = "❌ 未选择文件"
+            appendLog("❌ \(L10n.noFileSelected)")
+            statusLabel.text = L10n.noFileSelected
             statusLabel.textColor = .systemRed
             return
         }
-        // 检查是否已连接 BLE 设备
         guard let peripheral = BLEManager.shared.currentPeripheral else {
-            appendLog("❌ 未连接设备")
-            statusLabel.text = "❌ 未连接设备，请先在首页连接"
+            appendLog("❌ \(L10n.noDeviceConnected)")
+            statusLabel.text = L10n.noDeviceConnected
             statusLabel.textColor = .systemRed
             return
         }
         
-        // 弹出底部 ActionSheet 让用户选择升级模式
-        showUpgradeModeSheet(fileURL: fileURL, peripheral: peripheral)
+        switch frameworkType {
+        case .mcuManager:
+            // 新版 SMP：弹出模式选择
+            showSMPModeSheet(fileURL: fileURL, peripheral: peripheral)
+        case .nordicDFU:
+            // 旧版 DFU：弹出操作选择
+            showLegacyDFUConfirm(fileURL: fileURL, peripheral: peripheral)
+        case .unknown:
+            // 兜底：重新检测
+            showUpgradeModeSheet(fileURL: fileURL, peripheral: peripheral)
+        }
     }
     
-    /// 从底部弹出升级模式选择框
-    /// 四种模式对应 FirmwareUpgradeMode 的四个枚举值
+    /// 兜底：框架类型未知时重新检测
     private func showUpgradeModeSheet(fileURL: URL, peripheral: CBPeripheral) {
+        appendLog("🔍 \(L10n.s("重新检测设备类型...", "Re-detecting device type..."))")
+        statusLabel.text = L10n.detecting
+        statusLabel.textColor = .systemBlue
+        
+        LegacyDFUManager.checkSMPSupport(peripheral: peripheral) { [weak self] supportsSMP in
+            guard let self = self else { return }
+            if supportsSMP {
+                self.frameworkType = .mcuManager
+                self.showSMPModeSheet(fileURL: fileURL, peripheral: peripheral)
+            } else {
+                self.frameworkType = .nordicDFU
+                self.showLegacyDFUConfirm(fileURL: fileURL, peripheral: peripheral)
+            }
+        }
+    }
+    
+    /// SMP 模式选择（新版设备）
+    private func showSMPModeSheet(fileURL: URL, peripheral: CBPeripheral) {
         let sheet = UIAlertController(
             title: "选择升级模式",
-            message: "不同模式决定固件写入后的确认策略",
+            message: "设备支持 McuManager (SMP) 协议\n不同模式决定固件写入后的确认策略",
             preferredStyle: .actionSheet
         )
         
-        // 模式1: Test Only
         sheet.addAction(UIAlertAction(title: "🧪 仅测试 (Test Only)", style: .default) { [weak self] _ in
             self?.appendLog("📋 选择模式: Test Only")
             self?.startDFU(fileURL: fileURL, peripheral: peripheral, mode: .testOnly)
         })
         
-        // 模式2: Confirm Only（推荐）
         sheet.addAction(UIAlertAction(title: "✅ 仅确认 (Confirm Only) - 推荐", style: .default) { [weak self] _ in
             self?.appendLog("📋 选择模式: Confirm Only (推荐)")
             self?.startDFU(fileURL: fileURL, peripheral: peripheral, mode: .confirmOnly)
         })
         
-        // 模式3: Test and Confirm
         sheet.addAction(UIAlertAction(title: "🔄 测试并确认 (Test & Confirm)", style: .default) { [weak self] _ in
             self?.appendLog("📋 选择模式: Test and Confirm")
             self?.startDFU(fileURL: fileURL, peripheral: peripheral, mode: .testAndConfirm)
         })
         
-        // 模式4: Upload Only
         sheet.addAction(UIAlertAction(title: "⬆️ 仅上传 (Upload Only)", style: .default) { [weak self] _ in
             self?.appendLog("📋 选择模式: Upload Only")
             self?.startDFU(fileURL: fileURL, peripheral: peripheral, mode: .uploadOnly)
         })
         
-        // 取消
         sheet.addAction(UIAlertAction(title: "取消", style: .cancel))
-        
         present(sheet, animated: true)
+    }
+    
+    /// 旧版 DFU 确认弹框（不支持 SMP 的设备）
+    private func showLegacyDFUConfirm(fileURL: URL, peripheral: CBPeripheral) {
+        let sheet = UIAlertController(
+            title: "旧版 DFU 升级",
+            message: "该设备不支持 SMP 协议，将使用传统 Nordic DFU 方式升级。\n\n设备会先收到 OTA 指令进入 DFU Bootloader 模式，然后开始固件传输。",
+            preferredStyle: .actionSheet
+        )
+        
+        sheet.addAction(UIAlertAction(title: "🔄 发送OTA指令并升级", style: .default) { [weak self] _ in
+            self?.startLegacyDFU(fileURL: fileURL, peripheral: peripheral, sendCommand: true)
+        })
+        
+        sheet.addAction(UIAlertAction(title: "📡 直接扫描DFU设备（已在DFU模式）", style: .default) { [weak self] _ in
+            self?.startLegacyDFU(fileURL: fileURL, peripheral: peripheral, sendCommand: false)
+        })
+        
+        sheet.addAction(UIAlertAction(title: "取消", style: .cancel))
+        present(sheet, animated: true)
+    }
+    
+    // MARK: - 旧版 DFU 升级流程
+    
+    /// 启动旧版 Nordic DFU 升级
+    private func startLegacyDFU(fileURL: URL, peripheral: CBPeripheral, sendCommand: Bool) {
+        // 清理上一次的 DFU（如果有）
+        legacyDFUManager?.abort()
+        legacyDFUManager = nil
+        
+        // 在发送 OTA 指令之前，先深度验证固件包是否为有效的 Nordic DFU 格式
+        // 避免发送了 OTA 指令设备进入 DFU 模式后，才发现固件包无法使用
+        appendLog("🔍 \(L10n.s("验证固件包...", "Validating firmware..."))")
+        do {
+            // 尝试用 NordicDFU 库解析固件包，这会完整校验：
+            // 1. ZIP 是否可解压
+            // 2. 是否包含 manifest.json
+            // 3. manifest.json 格式是否正确
+            // 4. manifest 中引用的 .bin/.dat 文件是否存在
+            let _ = try DFUFirmware(urlToZipFile: fileURL)
+            appendLog("✅ \(L10n.s("固件包验证通过 (Nordic DFU 格式)", "Firmware validated (Nordic DFU format)"))")
+        } catch {
+            // 固件包不满足 Nordic DFU 要求，直接报错，不发送 OTA 指令
+            let errorMsg = error.localizedDescription
+            appendLog("❌ \(L10n.s("固件包验证失败", "Firmware validation failed")): \(errorMsg)")
+            statusLabel.text = "❌ \(L10n.s("固件包无效", "Invalid firmware")): \(errorMsg)"
+            statusLabel.textColor = .systemRed
+            failedUpgrades += 1
+            updateStatistics()
+            startUpgradeButton.isEnabled = true
+            startUpgradeButton.alpha = 1.0
+            return
+        }
+        
+        totalUpgrades += 1
+        upgradeStartTime = Date()
+        statusLabel.text = "⬆️ 正在升级（旧版 DFU）..."
+        statusLabel.textColor = .systemBlue
+        progressView.progress = 0
+        progressLabel.text = "0%"
+        startUpgradeButton.isEnabled = false
+        startUpgradeButton.alpha = 0.5
+        updateStatistics()
+        
+        legacyDFUManager = LegacyDFUManager()
+        legacyDFUManager?.delegate = self
+        
+        if sendCommand {
+            // 需要先发送 0x47 指令进入 DFU 模式
+            // 注意：这里需要获取设备的写特征
+            // 由于我们的 BLEManager 没有维护特征引用，这里传 nil
+            // LegacyDFUManager 内部会处理
+            appendLog("📡 发送 OTA 指令，等待设备进入 DFU 模式...")
+            legacyDFUManager?.startLegacyOTA(peripheral: peripheral, firmwareURL: fileURL, writeCharacteristic: nil)
+        } else {
+            // 直接扫描已在 DFU 模式的设备
+            appendLog("🔍 直接扫描 DFU 设备...")
+            legacyDFUManager?.startScanDirectly(firmwareURL: fileURL)
+        }
     }
     
     // MARK: - DFU 核心流程
@@ -353,16 +520,85 @@ class ManualUpgradeViewController: UIViewController {
 extension ManualUpgradeViewController: UIDocumentPickerDelegate {
     
     /// 用户成功选择了文件
-    /// 选择 .import 模式时，系统会将文件复制到 App 的 tmp 目录
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         guard let url = urls.first else { return }
-        selectedFileURL = url  // 保存选中的文件路径
-        statusLabel.text = "✅ 已选择: \(url.lastPathComponent)"
-        statusLabel.textColor = .systemGreen
-        // 启用开始升级按钮
-        startUpgradeButton.isEnabled = true
-        startUpgradeButton.alpha = 1.0
-        appendLog("📄 已选择文件: \(url.lastPathComponent)")
+        
+        // 根据已确定的框架类型，只校验对应格式的固件包
+        switch frameworkType {
+        case .mcuManager:
+            validateForMcuManager(url: url)
+        case .nordicDFU:
+            validateForNordicDFU(url: url)
+        case .unknown:
+            // 未知类型，两种都尝试
+            let result = FirmwareValidator.validate(fileURL: url)
+            switch result {
+            case .validMcuManager, .validNordicDFU:
+                selectedFileURL = url
+                statusLabel.text = "✅ \(L10n.s("已选择", "Selected")): \(url.lastPathComponent)"
+                statusLabel.textColor = .systemGreen
+                startUpgradeButton.isEnabled = true
+                startUpgradeButton.alpha = 1.0
+            case .invalid(let reason):
+                rejectFirmware(reason: reason)
+            }
+        }
+    }
+    
+    /// 验证是否为有效的 McuManager 固件包
+    private func validateForMcuManager(url: URL) {
+        guard url.pathExtension.lowercased() == "zip" else {
+            rejectFirmware(reason: L10n.firmwareNotZip)
+            return
+        }
+        
+        do {
+            let _ = try McuMgrPackage(from: url)
+            // 解析成功，有效的 McuManager 格式
+            selectedFileURL = url
+            statusLabel.text = "✅ \(L10n.s("已选择 (McuManager格式)", "Selected (McuManager format)")): \(url.lastPathComponent)"
+            statusLabel.textColor = .systemGreen
+            startUpgradeButton.isEnabled = true
+            startUpgradeButton.alpha = 1.0
+            appendLog("📄 \(L10n.s("固件验证通过", "Firmware validated")): \(url.lastPathComponent) [McuManager ✓]")
+        } catch {
+            rejectFirmware(reason: L10n.s(
+                "该固件包不是 McuManager 格式。\n当前设备需要含 manifest.json 的固件包。\n\n错误: \(error.localizedDescription)",
+                "Not a McuManager firmware.\nThis device requires a package with manifest.json.\n\nError: \(error.localizedDescription)"))
+        }
+    }
+    
+    /// 验证是否为有效的 Nordic DFU 固件包
+    private func validateForNordicDFU(url: URL) {
+        guard url.pathExtension.lowercased() == "zip" else {
+            rejectFirmware(reason: L10n.firmwareNotZip)
+            return
+        }
+        
+        do {
+            let _ = try DFUFirmware(urlToZipFile: url)
+            // 解析成功，有效的 Nordic DFU 格式
+            selectedFileURL = url
+            statusLabel.text = "✅ \(L10n.s("已选择 (Nordic DFU格式)", "Selected (Nordic DFU format)")): \(url.lastPathComponent)"
+            statusLabel.textColor = .systemGreen
+            startUpgradeButton.isEnabled = true
+            startUpgradeButton.alpha = 1.0
+            appendLog("📄 \(L10n.s("固件验证通过", "Firmware validated")): \(url.lastPathComponent) [Nordic DFU ✓]")
+        } catch {
+            rejectFirmware(reason: L10n.s(
+                "该固件包不是有效的 Nordic DFU 格式。\n当前设备需要含 .dat + .bin 的固件包。\n\n错误: \(error.localizedDescription)",
+                "Not a valid Nordic DFU firmware.\nThis device requires a package with .dat + .bin.\n\nError: \(error.localizedDescription)"))
+        }
+    }
+    
+    /// 拒绝固件：红色提示，按钮置灰
+    private func rejectFirmware(reason: String) {
+        selectedFileURL = nil
+        statusLabel.text = "❌ \(reason)"
+        statusLabel.textColor = .systemRed
+        startUpgradeButton.isEnabled = false
+        startUpgradeButton.alpha = 0.5
+        appendLog("❌ \(L10n.s("固件包不符合要求", "Firmware not compatible")): \(reason)")
     }
 }
 
@@ -462,6 +698,59 @@ extension ManualUpgradeViewController: FirmwareUpgradeDelegate {
             self?.progressView.progress = progress
             self?.progressLabel.text = String(format: "%.1f%%", progress * 100)
             self?.updateStatistics()
+        }
+    }
+}
+
+// MARK: - LegacyDFUManagerDelegate（旧版 DFU 代理回调）
+
+extension ManualUpgradeViewController: LegacyDFUManagerDelegate {
+    
+    func legacyDFU(_ manager: LegacyDFUManager, didChangeState description: String) {
+        appendLog("📍 \(description)")
+        DispatchQueue.main.async { [weak self] in
+            self?.statusLabel.text = description
+            self?.statusLabel.textColor = .systemBlue
+        }
+    }
+    
+    func legacyDFU(_ manager: LegacyDFUManager, didUpdateProgress progress: Int, speed: Double, part: Int, totalParts: Int) {
+        DispatchQueue.main.async { [weak self] in
+            self?.progressView.progress = Float(progress) / 100.0
+            self?.progressLabel.text = "\(progress)%"
+            if totalParts > 1 {
+                self?.statusLabel.text = "正在传输固件 (\(part)/\(totalParts))...\n速度: \(String(format: "%.1f", speed / 1024.0)) KB/s"
+            } else {
+                self?.statusLabel.text = "正在传输固件...\n速度: \(String(format: "%.1f", speed / 1024.0)) KB/s"
+            }
+        }
+    }
+    
+    func legacyDFUDidComplete(_ manager: LegacyDFUManager) {
+        appendLog("🎉 旧版 DFU 升级完成！")
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.progressView.progress = 1.0
+            self.progressLabel.text = "100%"
+            self.statusLabel.text = "🎉 升级完成！"
+            self.statusLabel.textColor = .systemGreen
+            self.startUpgradeButton.isEnabled = true
+            self.startUpgradeButton.alpha = 1.0
+            self.successUpgrades += 1
+            self.updateStatistics()
+        }
+    }
+    
+    func legacyDFU(_ manager: LegacyDFUManager, didFailWithError error: String) {
+        appendLog("❌ 旧版 DFU 失败: \(error)")
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.statusLabel.text = "❌ 升级失败: \(error)"
+            self.statusLabel.textColor = .systemRed
+            self.startUpgradeButton.isEnabled = true
+            self.startUpgradeButton.alpha = 1.0
+            self.failedUpgrades += 1
+            self.updateStatistics()
         }
     }
 }

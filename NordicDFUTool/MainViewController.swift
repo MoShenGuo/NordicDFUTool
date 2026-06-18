@@ -26,6 +26,16 @@ class MainViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateCacheInfo()
+        // 每次回到主页重新绑定 BLE 回调（子页面可能覆盖了回调）
+        setupBLECallbacks()
+        // 更新当前连接状态显示
+        if let peripheral = BLEManager.shared.currentPeripheral {
+            statusLabel.text = "✅ \(L10n.s("已连接", "Connected")): \(peripheral.name ?? "Unknown")"
+            statusLabel.textColor = .systemGreen
+        } else {
+            statusLabel.text = L10n.notConnected
+            statusLabel.textColor = .secondaryLabel
+        }
     }
     
     private func setupUI() {
@@ -208,10 +218,7 @@ class MainViewController: UIViewController {
     // MARK: - Actions
     
     @objc private func scanTapped() {
-        guard BLEManager.shared.isReady else {
-            showAlert(title: "蓝牙不可用", message: BLEManager.shared.stateDescription)
-            return
-        }
+        guard PermissionManager.checkBluetooth(from: self) else { return }
         
         let scanVC = ScanViewController()
         scanVC.onDeviceSelected = { [weak self] peripheral in
@@ -222,8 +229,9 @@ class MainViewController: UIViewController {
     }
     
     @objc private func manualUpgradeTapped() {
+        guard PermissionManager.checkBluetooth(from: self) else { return }
         guard BLEManager.shared.currentPeripheral != nil else {
-            showAlert(title: "提示", message: "请先扫描并连接一个设备")
+            showAlert(title: L10n.tip, message: L10n.connectFirst)
             return
         }
         let upgradeVC = ManualUpgradeViewController()
@@ -231,6 +239,7 @@ class MainViewController: UIViewController {
     }
     
     @objc private func autoUpgradeTapped() {
+        guard PermissionManager.checkBluetooth(from: self) else { return }
         let autoVC = AutoUpgradeViewController()
         navigationController?.pushViewController(autoVC, animated: true)
     }

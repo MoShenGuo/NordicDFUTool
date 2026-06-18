@@ -12,7 +12,7 @@ class BLEManager: NSObject {
     /// 系统蓝牙中心管理器，用于扫描和连接 BLE 外设
     /// CBCentralManager 是 iOS CoreBluetooth 框架的核心类
     /// 创建时会自动触发系统蓝牙授权弹框（首次使用时）
-    private var centralManager: CBCentralManager!
+    internal var centralManager: CBCentralManager!
     
     /// 已发现的所有外设列表（扫描过程中不断累加）
     private var discoveredPeripherals: [CBPeripheral] = []

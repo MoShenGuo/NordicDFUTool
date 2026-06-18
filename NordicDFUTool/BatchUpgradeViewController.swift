@@ -52,6 +52,10 @@ class BatchUpgradeViewController: UIViewController {
     private let deviceName: String
     /// 升级模式
     private let upgradeMode: FirmwareUpgradeMode
+    /// 是否使用旧版 Nordic DFU 框架
+    private let legacyDFU: Bool
+    /// 旧版 DFU 是否需要发送 OTA 指令
+    private let sendOTACommand: Bool
     
     // MARK: - UI 组件
     private let scrollView = UIScrollView()
@@ -84,10 +88,12 @@ class BatchUpgradeViewController: UIViewController {
     private var startTime: Date?         // 批量升级开始时间
     
     /// 初始化方法，传入固件信息和目标设备型号
-    init(firmware: FirmwareInfo, deviceName: String, upgradeMode: FirmwareUpgradeMode = .confirmOnly) {
+    init(firmware: FirmwareInfo, deviceName: String, upgradeMode: FirmwareUpgradeMode = .confirmOnly, legacyDFU: Bool = false, sendOTACommand: Bool = true) {
         self.firmware = firmware
         self.deviceName = deviceName
         self.upgradeMode = upgradeMode
+        self.legacyDFU = legacyDFU
+        self.sendOTACommand = sendOTACommand
         super.init(nibName: nil, bundle: nil)
     }
     

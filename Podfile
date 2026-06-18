@@ -3,6 +3,7 @@ use_frameworks!
 
 target 'NordicDFUTool' do
   pod 'iOSMcuManagerLibrary', '~> 1.14'
+  pod 'NordicDFU', '~> 4.16'
 end
 
 post_install do |installer|
